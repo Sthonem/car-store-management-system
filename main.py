@@ -7,5 +7,17 @@ app = FastAPI()
 async def root():
     return {"message": "Hello World"}
 
+
+@app.get("/cars")
+async def get_all_cars():
+    return [
+        {"id": 0, "name": "Ford", "color": "red"},
+        {"id": 1, "name": "BMW", "color": "blue"},
+        {"id": 2, "name": "Mercedes", "color": "green"},
+        {"id": 3, "name": "Renault", "color": "silver"},
+        {"id": 4, "name": "Tesla", "color": "white"},
+    ]
+
+
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)
