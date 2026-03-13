@@ -17,5 +17,25 @@ async def get_car_places():
         {"id": 4, "name": "Tesla", "color": "white", "place": "Sosnowiec"},
     ]
 
-if __name__ == "_main_":
+@app.get("/car_prices")
+async def get_car_prices():
+    return [
+        {"id": 0, "name": "Ford", "color": "red", "price": "100000 zloti"},
+        {"id": 1, "name": "BMW", "color": "blue", "price": "180000 zloti"},
+        {"id": 2, "name": "Mercedes", "color": "green", "price": "220000 zloti"},
+        {"id": 3, "name": "Renault", "color": "silver", "price": "95000 zloti"},
+        {"id": 4, "name": "Tesla", "color": "white", "price": "250000 zloti"},
+    ]
+
+@app.get("/cars")
+async def get_all_cars():
+    return [
+        {"id": 0, "name": "Ford", "color": "red"},
+        {"id": 1, "name": "BMW", "color": "blue"},
+        {"id": 2, "name": "Mercedes", "color": "green"},
+        {"id": 3, "name": "Renault", "color": "silver"},
+        {"id": 4, "name": "Tesla", "color": "white"},
+    ]
+
+if _name_ == "_main_":
     uvicorn.run(app, host="0.0.0.0", port=8000)
