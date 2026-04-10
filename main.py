@@ -47,5 +47,5 @@ async def get_all_cars():
         {"id": 4, "name": "Tesla", "color": "white"},
     ]
 
-if _name_ == "_main_":
+if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)
