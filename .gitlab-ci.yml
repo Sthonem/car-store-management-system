@@ -1,0 +1,10 @@
+stages:
+  - build
+
+build_job:
+  stage: build
+  image: docker:29.4.0
+  services:
+    - docker:dind
+  script:
+    - docker build -t fastapi-app-image .
