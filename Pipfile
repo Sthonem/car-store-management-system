@@ -8,6 +8,8 @@ uvicorn = "*"
 fastapi = "*"
 
 [dev-packages]
+pytest = "*"
+httpx = "*"
 
 [requires]
 python_version = "3.13"

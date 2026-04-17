@@ -1,0 +1,20 @@
+stages:
+  - build
+  - test
+
+build_job:
+  stage: build
+  image: docker:29.4.0
+  services:
+    - docker:dind
+  script:
+    - docker build -t fastapi-app-image .
+
+test:
+  stage: test
+  image: python:3.13
+  before_script:
+    - pip install pipenv==2026.2.2
+    - pipenv install --dev --system --deploy
+  script:
+    - pytest
