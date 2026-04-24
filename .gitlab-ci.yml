@@ -17,4 +17,8 @@ test:
     - pip install pipenv==2026.2.2
     - pipenv install --dev --system --deploy
   script:
-    - pytest
+    - pytest --junitxml=report.xml
+  artifacts:
+    when: always
+    reports:
+      junit: report.xml
