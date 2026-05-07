@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}Home - Car Store Management{% endblock %}
+
+{% block content %}
+<section class="panel hero">
+    <h1>Car Store Management System</h1>
+    <p>FastAPI Sprint 1 starter for registration, login, and vehicle inventory.</p>
+    {% if user %}
+        <a class="button" href="/vehicles">View Inventory</a>
+    {% else %}
+        <a class="button" href="/register">Create Account</a>
+        <a class="button button-secondary" href="/login">Login</a>
+    {% endif %}
+</section>
+{% endblock %}
+

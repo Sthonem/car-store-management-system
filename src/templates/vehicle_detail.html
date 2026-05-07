@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}Vehicle Details - Car Store Management{% endblock %}
+
+{% block content %}
+<section class="panel detail-panel">
+    <a href="/vehicles">&larr; Back to Inventory</a>
+    <h1>{{ vehicle.year }} {{ vehicle.make }} {{ vehicle.model }}</h1>
+    <dl class="detail-list">
+        <div>
+            <dt>Price</dt>
+            <dd>{{ "%.2f"|format(vehicle.price) }} PLN</dd>
+        </div>
+        <div>
+            <dt>Color</dt>
+            <dd>{{ vehicle.color or "Not listed" }}</dd>
+        </div>
+        <div>
+            <dt>Mileage</dt>
+            <dd>{{ vehicle.mileage or 0 }} km</dd>
+        </div>
+        <div>
+            <dt>Description</dt>
+            <dd>{{ vehicle.description or "No description provided." }}</dd>
+        </div>
+    </dl>
+</section>
+{% endblock %}
+

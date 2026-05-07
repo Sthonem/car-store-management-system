@@ -1,14 +1,13 @@
-FROM python:3.13-slim
+FROM python:3.12-slim
 
 WORKDIR /app
 
-RUN pip install pipenv
-
-COPY Pipfile Pipfile.lock /app/
-
-RUN pipenv install --system --deploy
+COPY requirements.txt /app/
+RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . /app/
+
+ENV PYTHONPATH=/app/src
 
 EXPOSE 8000
 

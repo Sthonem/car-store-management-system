@@ -1,45 +1,89 @@
 from fastapi.testclient import TestClient
-from main import app
+
+from main import Base, engine, app
 
 client = TestClient(app)
 
 
-# Basic example test (required for 1p)
-def test_example():
-    assert True
+def setup_function():
+    Base.metadata.drop_all(bind=engine)
+    Base.metadata.create_all(bind=engine)
 
 
-# Three tests
+def register_and_login(username="student", password="password123"):
+    register_response = client.post(
+        "/register",
+        data={"username": username, "password": password},
+        follow_redirects=False,
+    )
+    assert register_response.status_code == 303
 
-def test_get_car_owner_by_id():
-    """Change 1: /car_owners/{car_id} should return a single owner by path parameter."""
-    response = client.get("/car_owners/2")
+    login_response = client.post(
+        "/login",
+        data={"username": username, "password": password},
+        follow_redirects=False,
+    )
+    assert login_response.status_code == 303
+
+
+def test_home_page_loads():
+    response = client.get("/")
+
     assert response.status_code == 200
-    data = response.json()
-    assert data["name"] == "BMW"
-    assert data["owner"] == "Pawel"
+    assert "Car Store Management System" in response.text
 
 
-def test_get_car_owner_not_found():
-    """Change 1 (extra): non-existent id should return 404."""
-    response = client.get("/car_owners/999")
-    assert response.status_code == 404
+def test_user_can_register_login_and_view_empty_inventory():
+    register_and_login()
 
+    response = client.get("/vehicles")
 
-def test_car_places_city_filter():
-    """Change 2: /car_places?city= should filter results by city."""
-    response = client.get("/car_places?city=Gdańsk")
     assert response.status_code == 200
-    data = response.json()
-    assert len(data) == 1
-    assert data[0]["name"] == "Ford"
+    assert "No vehicles in inventory yet" in response.text
 
 
-def test_car_prices_are_integers():
-    """Change 3: /car_prices must return integer prices and a currency field."""
-    response = client.get("/car_prices")
+def test_logged_in_user_can_add_and_view_vehicle():
+    register_and_login()
+
+    add_response = client.post(
+        "/vehicles/add",
+        data={
+            "make": "Toyota",
+            "model": "Corolla",
+            "year": "2021",
+            "price": "18900",
+            "color": "Silver",
+            "mileage": "32000",
+            "description": "Sample Sprint 1 vehicle",
+        },
+        follow_redirects=False,
+    )
+
+    assert add_response.status_code == 303
+
+    list_response = client.get("/vehicles")
+    assert list_response.status_code == 200
+    assert "Toyota" in list_response.text
+    assert "Corolla" in list_response.text
+
+    detail_response = client.get("/vehicles/1")
+    assert detail_response.status_code == 200
+    assert "Sample Sprint 1 vehicle" in detail_response.text
+
+    api_response = client.get("/api/vehicles/1")
+    assert api_response.status_code == 200
+    assert api_response.json()["make"] == "Toyota"
+
+
+def test_vehicle_pages_require_login():
+    response = client.get("/vehicles", follow_redirects=False)
+
+    assert response.status_code == 303
+    assert response.headers["location"] == "/login"
+
+
+def test_health_check():
+    response = client.get("/health")
+
     assert response.status_code == 200
-    data = response.json()
-    for car in data:
-        assert isinstance(car["price"], int)
-        assert car["currency"] == "PLN"
+    assert response.json() == {"status": "ok"}
