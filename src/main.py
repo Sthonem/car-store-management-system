@@ -1,64 +1,40 @@
+from pathlib import Path
+from contextlib import asynccontextmanager
+
 import uvicorn
-from fastapi import FastAPI, HTTPException
+from fastapi import Depends, FastAPI, Form, HTTPException, Request, status
+from fastapi.responses import RedirectResponse
+from fastapi.staticfiles import StaticFiles
+from fastapi.templating import Jinja2Templates
+from passlib.context import CryptContext
+from sqlalchemy import Column, Float, Integer, String, create_engine
+from sqlalchemy.orm import Session, declarative_base, sessionmaker
+from starlette.middleware.sessions import SessionMiddleware
 
-app = FastAPI()
+BASE_DIR = Path(__file__).resolve().parent
+DATABASE_URL = "sqlite:///./car_store.db"
 
+engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+Base = declarative_base()
 
-@app.get("/")
-async def root():
-    return {"message": "Hello World"}
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    Base.metadata.create_all(bind=engine)
+    yield
 
+app = FastAPI(title="Car Store Management System", lifespan=lifespan)
 
-@app.get("/car_owners/{car_id}")
-async def get_car_owner(car_id: int):
-    owners = [
-        {"id": 1, "name": "Ford", "owner": "Adam"},
-        {"id": 2, "name": "BMW", "owner": "Pawel"},
-        {"id": 3, "name": "Mercedes", "owner": "Ken"},
-        {"id": 4, "name": "Renault", "owner": "Will"},
-        {"id": 5, "name": "Tesla", "owner": "Steve"},
-    ]
-    for car in owners:
-        if car["id"] == car_id:
-            return car
-    raise HTTPException(status_code=404, detail="Car not found")
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
 
-
-@app.get("/car_places")
-async def get_car_places(city: str | None = None):
-    places = [
-        {"id": 0, "name": "Ford", "color": "red", "place": "Gdańsk"},
-        {"id": 1, "name": "BMW", "color": "blue", "place": "Łódź"},
-        {"id": 2, "name": "Mercedes", "color": "green", "place": "Gdynia"},
-        {"id": 3, "name": "Renault", "color": "silver", "place": "Sopot"},
-        {"id": 4, "name": "Tesla", "color": "white", "place": "Sosnowiec"},
-    ]
-    if city is not None:
-        return [c for c in places if c["place"].lower() == city.lower()]
-    return places
-
-
-@app.get("/car_prices")
-async def get_car_prices():
-    return [
-        {"id": 0, "name": "Ford", "color": "red", "price": 100000, "currency": "PLN"},
-        {"id": 1, "name": "BMW", "color": "blue", "price": 180000, "currency": "PLN"},
-        {"id": 2, "name": "Mercedes", "color": "green", "price": 220000, "currency": "PLN"},
-        {"id": 3, "name": "Renault", "color": "silver", "price": 95000, "currency": "PLN"},
-        {"id": 4, "name": "Tesla", "color": "white", "price": 250000, "currency": "PLN"},
-    ]
-
-
-@app.get("/cars")
-async def get_all_cars():
-    return [
-        {"id": 0, "name": "Ford", "color": "red"},
-        {"id": 1, "name": "BMW", "color": "blue"},
-        {"id": 2, "name": "Mercedes", "color": "green"},
-        {"id": 3, "name": "Renault", "color": "silver"},
-        {"id": 4, "name": "Tesla", "color": "white"},
-    ]
-
+@app.get("/health")
+async def health_check():
+    return {"status": "ok"}
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)

@@ -4,12 +4,17 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-uvicorn = "*"
 fastapi = "*"
+uvicorn = {extras = ["standard"], version = "*"}
+sqlalchemy = "*"
+jinja2 = "*"
+python-multipart = "*"
+passlib = "*"
+itsdangerous = "*"
 
 [dev-packages]
 pytest = "*"
 httpx = "*"
 
 [requires]
-python_version = "3.13"
+python_version = "3.12"
