@@ -17,6 +17,7 @@ DATABASE_URL = "sqlite:///./car_store.db"
 engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
+pwd_context = CryptContext(schemes=["pbkdf2_sha256"], deprecated="auto")
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -24,6 +25,7 @@ async def lifespan(app: FastAPI):
     yield
 
 app = FastAPI(title="Car Store Management System", lifespan=lifespan)
+app.add_middleware(SessionMiddleware, secret_key="change-this-secret-key-in-real-projects")
 
 def get_db():
     db = SessionLocal()
@@ -31,6 +33,15 @@ def get_db():
         yield db
     finally:
         db.close()
+
+
+def hash_password(password: str) -> str:
+    return pwd_context.hash(password)
+
+
+def verify_password(plain_password: str, hashed_password: str) -> bool:
+    return pwd_context.verify(plain_password, hashed_password)
+
 
 @app.get("/health")
 async def health_check():
