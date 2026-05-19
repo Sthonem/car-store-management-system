@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}Inventory - Car Store Management{% endblock %}
+
+{% block content %}
+<section class="page-title">
+    <div>
+        <h1>Vehicle Inventory</h1>
+        <p>Vehicles currently available in the store.</p>
+    </div>
+    <a class="button" href="/vehicles/add">Add Vehicle</a>
+</section>
+
+{% if vehicles %}
+    <div class="vehicle-grid">
+        {% for vehicle in vehicles %}
+            <article class="vehicle-card">
+                <h2>{{ vehicle.year }} {{ vehicle.make }} {{ vehicle.model }}</h2>
+                <p class="price">{{ "%.2f"|format(vehicle.price) }} PLN</p>
+                <p>{{ vehicle.color or "Color not listed" }} | {{ vehicle.mileage or 0 }} km</p>
+                <a href="/vehicles/{{ vehicle.id }}">View Details</a>
+            </article>
+        {% endfor %}
+    </div>
+{% else %}
+    <section class="panel empty-state">
+        <h2>No vehicles in inventory yet</h2>
+        <p>Add the first vehicle to start the Sprint 1 inventory.</p>
+        <a class="button" href="/vehicles/add">Add Vehicle</a>
+    </section>
+{% endif %}
+{% endblock %}
+
