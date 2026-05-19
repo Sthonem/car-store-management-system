@@ -161,6 +161,117 @@ async def logout(request: Request):
     return RedirectResponse(url="/", status_code=status.HTTP_303_SEE_OTHER)
 
 
+@app.get("/vehicles")
+async def vehicle_list(request: Request, db: Session = Depends(get_db)):
+    user = require_login(request, db)
+    if isinstance(user, RedirectResponse):
+        return user
+
+    vehicles = db.query(Vehicle).order_by(Vehicle.id.desc()).all()
+    return templates.TemplateResponse(
+        request,
+        "vehicles.html",
+        {"user": user, "vehicles": vehicles},
+    )
+
+
+@app.get("/vehicles/add")
+async def add_vehicle_page(request: Request, db: Session = Depends(get_db)):
+    user = require_login(request, db)
+    if isinstance(user, RedirectResponse):
+        return user
+
+    return templates.TemplateResponse(
+        request,
+        "add_vehicle.html",
+        {"user": user},
+    )
+
+
+@app.post("/vehicles/add")
+async def add_vehicle(
+    request: Request,
+    make: str = Form(...),
+    model: str = Form(...),
+    year: int = Form(...),
+    price: float = Form(...),
+    color: str = Form(""),
+    mileage: int = Form(0),
+    description: str = Form(""),
+    db: Session = Depends(get_db),
+):
+    user = require_login(request, db)
+    if isinstance(user, RedirectResponse):
+        return user
+
+    vehicle = Vehicle(
+        make=make,
+        model=model,
+        year=year,
+        price=price,
+        color=color,
+        mileage=mileage,
+        description=description,
+    )
+    db.add(vehicle)
+    db.commit()
+
+    return RedirectResponse(url="/vehicles", status_code=status.HTTP_303_SEE_OTHER)
+
+
+@app.get("/vehicles/{vehicle_id}")
+async def vehicle_detail(vehicle_id: int, request: Request, db: Session = Depends(get_db)):
+    user = require_login(request, db)
+    if isinstance(user, RedirectResponse):
+        return user
+
+    vehicle = db.query(Vehicle).filter(Vehicle.id == vehicle_id).first()
+    if vehicle is None:
+        raise HTTPException(status_code=404, detail="Vehicle not found")
+
+    return templates.TemplateResponse(
+        request,
+        "vehicle_detail.html",
+        {"user": user, "vehicle": vehicle},
+    )
+
+
+@app.get("/api/vehicles")
+async def api_vehicle_list(db: Session = Depends(get_db)):
+    vehicles = db.query(Vehicle).order_by(Vehicle.id.desc()).all()
+    return [
+        {
+            "id": vehicle.id,
+            "make": vehicle.make,
+            "model": vehicle.model,
+            "year": vehicle.year,
+            "price": vehicle.price,
+            "color": vehicle.color,
+            "mileage": vehicle.mileage,
+            "description": vehicle.description,
+        }
+        for vehicle in vehicles
+    ]
+
+
+@app.get("/api/vehicles/{vehicle_id}")
+async def api_vehicle_detail(vehicle_id: int, db: Session = Depends(get_db)):
+    vehicle = db.query(Vehicle).filter(Vehicle.id == vehicle_id).first()
+    if vehicle is None:
+        raise HTTPException(status_code=404, detail="Vehicle not found")
+
+    return {
+        "id": vehicle.id,
+        "make": vehicle.make,
+        "model": vehicle.model,
+        "year": vehicle.year,
+        "price": vehicle.price,
+        "color": vehicle.color,
+        "mileage": vehicle.mileage,
+        "description": vehicle.description,
+    }
+
+
 @app.get("/health")
 async def health_check():
     return {"status": "ok"}
