@@ -27,6 +27,19 @@ class User(Base):
     hashed_password = Column(String, nullable=False)
 
 
+class Vehicle(Base):
+    __tablename__ = "vehicles"
+
+    id = Column(Integer, primary_key=True, index=True)
+    make = Column(String, index=True, nullable=False)
+    model = Column(String, index=True, nullable=False)
+    year = Column(Integer, nullable=False)
+    price = Column(Float, nullable=False)
+    color = Column(String, nullable=True)
+    mileage = Column(Integer, nullable=True)
+    description = Column(String, nullable=True)
+
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     Base.metadata.create_all(bind=engine)
