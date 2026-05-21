@@ -1,93 +1,174 @@
-# Lab3FastAPI
+# Car Store Management System
 
+GitHub-ready FastAPI starter project for a university Scrum Sprint 1 laboratory. The implementation keeps the original lab style: one simple FastAPI entry point in `src/main.py`, pytest tests in `src/test_main.py`, Docker support, docker-compose, SQLite, SQLAlchemy, Jinja2 templates, and CI configuration.
 
+## Tech Stack
 
-## Getting started
+- Python FastAPI
+- SQLite
+- SQLAlchemy
+- Jinja2 templates
+- Basic HTML/CSS
+- pytest
+- Docker
+- docker-compose
+- GitHub Actions CI
+- Existing GitLab CI file retained from the lab project
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+## Sprint 1 Features
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+- User registration
+- User login
+- Password hashing
+- Basic session management
+- Vehicle inventory model
+- Add vehicle endpoint and HTML form
+- Vehicle listing page
+- Vehicle detail page and JSON detail endpoint
+- Empty inventory message
+- Simple pytest coverage
 
-## Add your files
+## Project Structure
 
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
-
+```text
+.
+├── .github/workflows/ci.yml
+├── src/
+│   ├── static/css/styles.css
+│   ├── templates/
+│   │   ├── add_vehicle.html
+│   │   ├── base.html
+│   │   ├── home.html
+│   │   ├── login.html
+│   │   ├── register.html
+│   │   ├── vehicle_detail.html
+│   │   └── vehicles.html
+│   ├── main.py
+│   └── test_main.py
+├── .gitignore
+├── .gitlab-ci.yml
+├── Dockerfile
+├── docker-compose.yml
+├── pytest.ini
+├── requirements.txt
+└── README.md
 ```
-cd existing_repo
-git remote add origin https://git.pg.edu.pl/GuneyYilmaz/lab3fastapi.git
-git branch -M main
-git push -uf origin main
+
+## Initial Git Branches
+
+Recommended branch structure for the Scrum/Jira lab:
+
+- `main`: stable branch for reviewed work
+- `develop`: integration branch for Sprint work
+- `feature/erdem-car-store-sprint1`: personal Sprint 1 implementation branch
+- `feature/authentication`: optional branch for registration, login, hashing, and sessions
+- `feature/vehicle-inventory`: optional branch for vehicle model and add form
+- `feature/vehicle-listing`: optional branch for listing and detail pages
+
+Current Sprint 1 work should stay on:
+
+```bash
+feature/erdem-car-store-sprint1
 ```
-
-## Integrate with your tools
-
-- [ ] [Set up project integrations](https://git.pg.edu.pl/GuneyYilmaz/lab3fastapi/-/settings/integrations)
-
-## Collaborate with your team
-
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Set auto-merge](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
-
-## Test and Deploy
-
-Use the built-in continuous integration in GitLab.
-
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing (SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
-
-***
-
-# Editing this README
-
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thanks to [makeareadme.com](https://www.makeareadme.com/) for this template.
-
-## Suggestions for a good README
-
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
-
-## Name
-Choose a self-explaining name for your project.
-
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
-
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
-
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
 
 ## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
 
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
+Create and activate a virtual environment:
 
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
+```bash
+python -m venv .venv
+source .venv/bin/activate
+```
 
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
+On Windows:
 
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
+```bash
+python -m venv .venv
+.venv\Scripts\activate
+```
 
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
+Install dependencies:
 
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
+```bash
+pip install -r requirements.txt
+```
 
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
+## Run Locally
 
-## License
-For open source projects, say how it is licensed.
+Run from the repository root:
 
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+```bash
+PYTHONPATH=src uvicorn main:app --reload
+```
+
+Open:
+
+```text
+http://127.0.0.1:8000
+```
+
+The SQLite database file `car_store.db` is created automatically.
+
+## Run With Docker
+
+```bash
+docker compose up --build
+```
+
+Open:
+
+```text
+http://127.0.0.1:8000
+```
+
+Stop the app:
+
+```bash
+docker compose down
+```
+
+## Run Tests
+
+```bash
+pytest
+```
+
+## Example Pages and API Endpoints
+
+HTML pages:
+
+- `GET /` - home page
+- `GET /register` - registration form
+- `POST /register` - create user account
+- `GET /login` - login form
+- `POST /login` - start user session
+- `GET /logout` - clear user session
+- `GET /vehicles` - vehicle listing page
+- `GET /vehicles/add` - add vehicle form
+- `POST /vehicles/add` - create vehicle
+- `GET /vehicles/{vehicle_id}` - vehicle detail page
+
+JSON endpoints:
+
+- `GET /health` - health check
+- `GET /api/vehicles` - list vehicles as JSON
+- `GET /api/vehicles/{vehicle_id}` - vehicle details as JSON
+
+## Sprint 1 Backlog Mapping
+
+| Backlog Item | File |
+| --- | --- |
+| User registration and login | `src/main.py`, `src/templates/register.html`, `src/templates/login.html` |
+| Password hashing | `src/main.py` |
+| Basic session management | `src/main.py` |
+| Vehicle inventory model | `src/main.py` |
+| Add vehicle endpoint/form | `src/main.py`, `src/templates/add_vehicle.html` |
+| Vehicle listing page | `src/templates/vehicles.html` |
+| Vehicle detail endpoint/page | `src/main.py`, `src/templates/vehicle_detail.html` |
+| Tests | `src/test_main.py` |
+| Docker support | `Dockerfile`, `docker-compose.yml` |
+| CI | `.github/workflows/ci.yml`, `.gitlab-ci.yml` |
+
+## Notes
+
+This project is intentionally simple and suitable for a university laboratory. It is not a production authentication system, but it is functional enough for Sprint 1 demonstrations, Jira backlog tracking, and basic Git branch workflow practice.
