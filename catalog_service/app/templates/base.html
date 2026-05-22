@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Car Store{% endblock %}</title>
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a href="/vehicles" class="logo">
+        <span class="logo-mark">⌬</span>
+        <span class="logo-text">Car Store</span>
+      </a>
+      <nav class="main-nav">
+        <a href="/vehicles">Browse</a>
+        <a href="/admin/add-vehicle">Add Vehicle</a>
+        <a href="/login">Login</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>Car Store Management System &middot; Sprint 1 — Foundation</p>
+      <p class="meta">Auth Service · Catalog Service · via REST &amp; docker-compose</p>
+    </div>
+  </footer>
+</body>
+</html>

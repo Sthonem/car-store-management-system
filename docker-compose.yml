@@ -1,10 +1,56 @@
+# Car Store Management System - Sprint 1 Foundation
+# Two microservices running in separate containers, communicating via REST.
+# LA10 requirement: "two services that interchange communication via REST calls,
+# running in separate docker images, started within a single docker-compose.yml"
+
 services:
-  app:
-    build: .
+  auth_service:
+    build:
+      context: ./auth_service
+      dockerfile: Dockerfile
+    container_name: carstore_auth
     ports:
-      - "8000:8000"
-    volumes:
-      - .:/app
+      - "8001:8001"
     environment:
-      - PYTHONPATH=/app/src
-    command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+      DATABASE_URL: "sqlite:///./data/auth.db"
+      JWT_SECRET_KEY: "${JWT_SECRET_KEY:-dev-secret-change-in-production}"
+      JWT_ALGORITHM: "HS256"
+      JWT_EXPIRY_MINUTES: "1440"
+    volumes:
+      - auth_data:/app/data
+    networks:
+      - carstore_net
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8001/health')"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+      start_period: 5s
+
+  catalog_service:
+    build:
+      context: ./catalog_service
+      dockerfile: Dockerfile
+    container_name: carstore_catalog
+    ports:
+      - "8002:8002"
+    environment:
+      DATABASE_URL: "sqlite:///./data/catalog.db"
+      # AUTH_SERVICE_URL uses the Docker service name as DNS hostname.
+      # Inside the network, "auth_service" resolves to the auth container.
+      AUTH_SERVICE_URL: "http://auth_service:8001"
+    volumes:
+      - catalog_data:/app/data
+    networks:
+      - carstore_net
+    depends_on:
+      auth_service:
+        condition: service_healthy
+
+networks:
+  carstore_net:
+    driver: bridge
+
+volumes:
+  auth_data:
+  catalog_data:

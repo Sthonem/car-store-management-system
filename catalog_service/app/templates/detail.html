@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block title %}{{ vehicle.brand }} {{ vehicle.model }} · Car Store{% endblock %}
+
+{% block content %}
+<nav class="breadcrumb">
+  <a href="/vehicles">← Back to listing</a>
+</nav>
+
+<article class="vehicle-detail">
+  <header class="vehicle-detail__header">
+    <span class="badge badge--{{ vehicle.status.value }}">{{ vehicle.status.value }}</span>
+    <h1>{{ vehicle.brand }} {{ vehicle.model }}</h1>
+    <p class="vehicle-detail__year">{{ vehicle.year }}</p>
+  </header>
+
+  <div class="vehicle-detail__price-row">
+    <span class="price-tag">€{{ "{:,.2f}".format(vehicle.price) }}</span>
+  </div>
+
+  <dl class="spec-grid">
+    <div class="spec">
+      <dt>Brand</dt>
+      <dd>{{ vehicle.brand }}</dd>
+    </div>
+    <div class="spec">
+      <dt>Model</dt>
+      <dd>{{ vehicle.model }}</dd>
+    </div>
+    <div class="spec">
+      <dt>Year</dt>
+      <dd>{{ vehicle.year }}</dd>
+    </div>
+    <div class="spec">
+      <dt>Mileage</dt>
+      <dd>{{ "{:,}".format(vehicle.mileage) }} km</dd>
+    </div>
+    <div class="spec">
+      <dt>Fuel Type</dt>
+      <dd>{{ vehicle.fuel_type.value }}</dd>
+    </div>
+    <div class="spec">
+      <dt>Status</dt>
+      <dd>{{ vehicle.status.value }}</dd>
+    </div>
+    <div class="spec">
+      <dt>Listed</dt>
+      <dd>{{ vehicle.created_at.strftime('%d %b %Y') }}</dd>
+    </div>
+    <div class="spec">
+      <dt>Vehicle ID</dt>
+      <dd>#{{ vehicle.id }}</dd>
+    </div>
+  </dl>
+
+  <div class="vehicle-detail__cta">
+    <p class="meta">
+      Sprint 2 will add a "Send purchase request" button here (SCRUM-154).
+    </p>
+  </div>
+</article>
+{% endblock %}

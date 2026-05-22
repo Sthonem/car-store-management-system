@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}Browse Inventory · Car Store{% endblock %}
+
+{% block content %}
+<section class="page-intro">
+  <h1>Browse the Inventory</h1>
+  <p class="subtitle">
+    {% if vehicles %}
+      Showing {{ vehicles|length }} available vehicle{{ 's' if vehicles|length != 1 else '' }}.
+    {% else %}
+      Inventory is currently empty.
+    {% endif %}
+  </p>
+</section>
+
+{% if vehicles %}
+  <section class="vehicle-grid">
+    {% for v in vehicles %}
+      <article class="vehicle-card">
+        <div class="vehicle-card__header">
+          <span class="badge badge--{{ v.status.value }}">{{ v.status.value }}</span>
+          <span class="vehicle-card__year">{{ v.year }}</span>
+        </div>
+        <h2 class="vehicle-card__title">
+          <a href="/vehicles/{{ v.id }}">{{ v.brand }} {{ v.model }}</a>
+        </h2>
+        <dl class="vehicle-card__specs">
+          <div><dt>Mileage</dt><dd>{{ "{:,}".format(v.mileage) }} km</dd></div>
+          <div><dt>Fuel</dt><dd>{{ v.fuel_type.value }}</dd></div>
+        </dl>
+        <div class="vehicle-card__footer">
+          <span class="vehicle-card__price">€{{ "{:,.2f}".format(v.price) }}</span>
+          <a href="/vehicles/{{ v.id }}" class="btn btn--small">Details →</a>
+        </div>
+      </article>
+    {% endfor %}
+  </section>
+{% else %}
+  <section class="empty-state">
+    <p>No vehicles available right now.</p>
+    <p class="meta">Check back soon, or <a href="/admin/add-vehicle">add one if you have access</a>.</p>
+  </section>
+{% endif %}
+{% endblock %}

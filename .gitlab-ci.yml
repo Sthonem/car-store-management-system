@@ -2,22 +2,41 @@ stages:
   - test
   - build
 
-build_job:
-  stage: build
-  image: docker:29.4.0
-  services:
-    - docker:dind
-  script:
-    - docker build -t fastapi-app-image .
+variables:
+  PIP_CACHE_DIR: "$CI_PROJECT_DIR/.pip-cache"
 
-test:
+cache:
+  paths:
+    - .pip-cache/
+
+test:auth_service:
   stage: test
-  image: python:3.12
-  before_script:
-    - pip install -r requirements.txt
+  image: python:3.11-slim
   script:
-    - pytest --junitxml=report.xml
-  artifacts:
-    when: always
-    reports:
-      junit: report.xml
+    - cd auth_service
+    - pip install -r requirements.txt
+    - pytest
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH
+
+test:catalog_service:
+  stage: test
+  image: python:3.11-slim
+  script:
+    - cd catalog_service
+    - pip install -r requirements.txt
+    - pytest
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH
+
+build:images:
+  stage: build
+  image: docker:24
+  services:
+    - docker:24-dind
+  script:
+    - docker build -t carstore-auth ./auth_service
+    - docker build -t carstore-catalog ./catalog_service
+
