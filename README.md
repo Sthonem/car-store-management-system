@@ -205,6 +205,37 @@ docker compose run --rm catalog_service pytest
 
 ---
 
+## 🔄 GitLab Repository Synchronization
+
+To comply with the software engineering course requirements, this repository is fully tracked and submitted through the Gdańsk University of Technology GitLab server.
+
+### Remote Configuration
+
+Ensure your local repository has the university GitLab set as the primary remote (`origin`):
+
+*   **GitLab (`origin`):** `https://git.pg.edu.pl/GuneyYilmaz/lab3fastapi.git`
+
+#### Verify and Setup Remotes:
+```bash
+# Check current configured remotes
+git remote -v
+
+# If origin points elsewhere, set it to the official GitLab repository:
+git remote set-url origin https://git.pg.edu.pl/GuneyYilmaz/lab3fastapi.git
+```
+
+#### Synchronization Workflow:
+When working on sprint branches (e.g. `feature/sprint-1`), always push your latest commits to the official GitLab repository to keep the team and instructors updated:
+
+```bash
+# Push the current sprint branch to GitLab
+git push origin feature/sprint-1
+```
+
+Once pushed, the branch and all its commits will be fully visible in the GitLab Repository Graph.
+
+---
+
 ## 📚 API Reference
 
 ### Auth Service (port 8001)
