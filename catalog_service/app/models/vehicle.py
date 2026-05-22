@@ -34,6 +34,7 @@ class Vehicle(Base):
     price = Column(Numeric(10, 2), nullable=False)  # Decimal for money
     fuel_type = Column(Enum(FuelType), nullable=False)
     status = Column(Enum(VehicleStatus), default=VehicleStatus.available, nullable=False)
+    description = Column(String(500), nullable=True)
 
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(

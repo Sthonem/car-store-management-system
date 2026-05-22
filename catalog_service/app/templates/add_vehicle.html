@@ -53,6 +53,11 @@
     </div>
   </div>
 
+  <div class="form__group">
+    <label for="description">Description (Optional)</label>
+    <textarea id="description" name="description" placeholder="Describe the vehicle's condition, features, history..." rows="3" maxlength="500"></textarea>
+  </div>
+
   <button type="submit" class="btn btn--primary">Add Vehicle</button>
   <div id="result" class="form__result"></div>
 </form>
@@ -70,7 +75,8 @@ document.getElementById('add-vehicle-form').addEventListener('submit', async (e)
     year: parseInt(form.year.value),
     mileage: parseInt(form.mileage.value),
     price: parseFloat(form.price.value),
-    fuel_type: form.fuel_type.value
+    fuel_type: form.fuel_type.value,
+    description: form.description.value.trim() || null
   };
 
   try {

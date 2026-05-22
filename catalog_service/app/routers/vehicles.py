@@ -91,6 +91,7 @@ async def create_vehicle(
         price=payload.price,
         fuel_type=payload.fuel_type,
         status=VehicleStatus.available,
+        description=payload.description,
     )
     db.add(vehicle)
     db.commit()

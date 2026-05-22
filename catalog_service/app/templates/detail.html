@@ -53,6 +53,13 @@
     </div>
   </dl>
 
+  {% if vehicle.description %}
+  <div class="vehicle-detail__description" style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border); margin-bottom: 2rem;">
+    <h3 style="font-family: var(--font-display); font-size: 1.25rem; margin: 0 0 0.75rem; font-weight: 600; color: var(--accent);">Description</h3>
+    <p style="color: var(--text); font-size: 1rem; margin: 0; line-height: 1.6; white-space: pre-line; background: var(--bg-elev-2); padding: 1rem; border-radius: var(--radius); border: 1px solid var(--border);">{{ vehicle.description }}</p>
+  </div>
+  {% endif %}
+
   <div class="vehicle-detail__cta">
     <p class="meta">
       Sprint 2 will add a "Send purchase request" button here (SCRUM-154).

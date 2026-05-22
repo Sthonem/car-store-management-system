@@ -17,6 +17,7 @@ class VehicleCreate(BaseModel):
     mileage: int = Field(..., ge=0)
     price: Decimal = Field(..., gt=0)
     fuel_type: FuelType
+    description: Optional[str] = Field(None, max_length=500)
 
     @field_validator("brand", "model")
     @classmethod
@@ -33,6 +34,7 @@ class VehicleResponse(BaseModel):
     price: Decimal
     fuel_type: FuelType
     status: VehicleStatus
+    description: Optional[str]
     created_at: datetime
 
     class Config:
