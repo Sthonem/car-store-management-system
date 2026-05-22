@@ -4,8 +4,8 @@ Implements SCRUM-88 subtask: SCRUM-102 Password Hashing.
 """
 from passlib.context import CryptContext
 
-# bcrypt with cost factor 12 (good balance of security vs. performance)
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto", bcrypt__rounds=12)
+# pbkdf2_sha256 (very secure, platform-independent and avoids passlib/bcrypt bugs)
+pwd_context = CryptContext(schemes=["pbkdf2_sha256"], deprecated="auto")
 
 
 def hash_password(plain_password: str) -> str:
