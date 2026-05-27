@@ -1,0 +1,188 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: #f6f7fb;
+    color: #1f2937;
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 1.5;
+}
+
+a {
+    color: #1d4ed8;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.site-header {
+    background: #111827;
+}
+
+.nav {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    margin: 0 auto;
+    max-width: 1000px;
+    padding: 16px 20px;
+}
+
+.brand {
+    color: #ffffff;
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.nav-links {
+    display: flex;
+    gap: 16px;
+}
+
+.nav-links a {
+    color: #ffffff;
+}
+
+.container {
+    margin: 0 auto;
+    max-width: 1000px;
+    padding: 32px 20px;
+}
+
+.panel,
+.vehicle-card {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 24px;
+}
+
+.hero {
+    text-align: center;
+}
+
+.hero h1,
+.page-title h1,
+.form-panel h1,
+.detail-panel h1 {
+    margin-top: 0;
+}
+
+.button {
+    background: #2563eb;
+    border: 0;
+    border-radius: 6px;
+    color: #ffffff;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 15px;
+    font-weight: 700;
+    margin-top: 12px;
+    padding: 10px 16px;
+}
+
+.button:hover {
+    background: #1d4ed8;
+    text-decoration: none;
+}
+
+.button-secondary {
+    background: #4b5563;
+    margin-left: 8px;
+}
+
+.form-panel {
+    margin: 0 auto;
+    max-width: 540px;
+}
+
+form {
+    display: grid;
+    gap: 10px;
+}
+
+label {
+    font-weight: 700;
+}
+
+input,
+textarea {
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    font: inherit;
+    padding: 10px;
+    width: 100%;
+}
+
+.error {
+    background: #fee2e2;
+    border: 1px solid #fecaca;
+    border-radius: 6px;
+    color: #991b1b;
+    padding: 10px;
+}
+
+.page-title {
+    align-items: center;
+    display: flex;
+    gap: 20px;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.vehicle-grid {
+    display: grid;
+    gap: 16px;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+
+.vehicle-card h2 {
+    font-size: 20px;
+    margin: 0 0 8px;
+}
+
+.price {
+    color: #047857;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.empty-state {
+    text-align: center;
+}
+
+.detail-list {
+    display: grid;
+    gap: 16px;
+}
+
+.detail-list div {
+    border-bottom: 1px solid #e5e7eb;
+    padding-bottom: 12px;
+}
+
+.detail-list dt {
+    color: #6b7280;
+    font-weight: 700;
+}
+
+.detail-list dd {
+    margin: 4px 0 0;
+}
+
+@media (max-width: 640px) {
+    .nav,
+    .page-title {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .nav-links {
+        flex-wrap: wrap;
+    }
+}
+
